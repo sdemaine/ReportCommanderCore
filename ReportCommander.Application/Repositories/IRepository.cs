@@ -1,15 +1,13 @@
 ﻿using ReportCommander.Core;
-using ReportCommander.Core.Interfaces;
 using System.Linq.Expressions;
 
-namespace ReportCommander.Application;
+namespace ReportCommander.Application.Repositories;
 
 public interface IRepository<TEntity> where TEntity : BaseEntity
 {
     TEntity FindById(int id);
 
     TEntity FindById(int id, string[] includes);
-
 
     IEnumerable<TEntity> Find(ISpecification<TEntity> specification = null);
 

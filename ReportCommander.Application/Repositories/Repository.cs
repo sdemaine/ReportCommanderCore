@@ -1,11 +1,9 @@
-﻿using ReportCommander.Core;
+﻿using Microsoft.EntityFrameworkCore;
+using ReportCommander.Core;
 using ReportCommander.Infrastructure;
-using Microsoft.EntityFrameworkCore;
-using ReportCommander.Core.Entities;
-using ReportCommander.Core.Interfaces;
 using System.Linq.Expressions;
 
-namespace ReportCommander.Application;
+namespace ReportCommander.Application.Repositories;
 
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
 {
@@ -36,7 +34,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
 
     public void AddRange(IEnumerable<TEntity> entities)
     {
-        foreach(var entity in entities)
+        foreach (var entity in entities)
         {
             entity.CreatedDate = DateTime.Now;
             entity.CreatedByUserId = _context.UserProfile.UserID;

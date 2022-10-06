@@ -1,11 +1,11 @@
-﻿using ReportCommander.Core.Entities;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ReportCommander.API.Endpoints;
 
-public class ConfigListResult
+public class ConfigUpdateRequest
 {
     public int Id { get; set; }
+
     public string Name { get; set; } = "";
 
     public string Description { get; set; } = "";
@@ -14,8 +14,7 @@ public class ConfigListResult
 
     public int DatabaseConnectionId { get; set; }
 
-    // TODO: uncomment this entity
-    //public DatabaseConnectionListDto DatabaseConnection { get; set; }
+
 
     [MaxLength(1000)]
     public string StoredProcedureName { get; set; } = "";

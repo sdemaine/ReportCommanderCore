@@ -3,6 +3,10 @@ using ReportCommander.Application;
 using ReportCommander.Domain;
 using ReportCommander.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using ReportCommander.Application.Repositories;
+using Microsoft.AspNetCore.Server.IISIntegration;
+using System.Text.Json;
+using Microsoft.AspNetCore.Authentication.Negotiate;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
@@ -21,8 +25,24 @@ builder.Services.AddCors(options =>
         });
 });
 
+// enable windows auth
+builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
+   .AddNegotiate();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = options.DefaultPolicy;
+});
+
+
+
 // Add services to the container.
-builder.Services.AddControllers();
+//builder.Services.AddControllers();
+
+// TODO: is this needed??
+builder.Services.AddControllers().AddJsonOptions(option =>
+        option.JsonSerializerOptions
+              .PropertyNamingPolicy = JsonNamingPolicy.CamelCase);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -54,13 +74,13 @@ if (app.Environment.IsDevelopment())
 //app.UseHttpsRedirection();
 app.UseRouting();
 
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseCors(MyAllowSpecificOrigins);
 
 
-//app.UseAuthorization();
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
