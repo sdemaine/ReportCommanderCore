@@ -24,7 +24,7 @@ namespace ReportCommander.Application
             return _context.Set<Config>().ToList();
         }
 
-        public ICollection<Config> GetListFromRequestDto(RequestDto requestDto)
+        public new ICollection<Config> GetListFromRequestDto(RequestDto requestDto)
         {
             var query = _context.Set<Config>().AsQueryable();
 
