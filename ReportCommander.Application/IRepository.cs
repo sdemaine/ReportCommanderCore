@@ -8,6 +8,9 @@ public interface IRepository<TEntity> where TEntity : BaseEntity
 {
     TEntity FindById(int id);
 
+    TEntity FindById(int id, string[] includes);
+
+
     IEnumerable<TEntity> Find(ISpecification<TEntity> specification = null);
 
     void Add(TEntity entity);
@@ -23,4 +26,7 @@ public interface IRepository<TEntity> where TEntity : BaseEntity
 
     int Count(ISpecification<TEntity> specification = null);
     int Count(Expression<Func<TEntity, bool>> predicate);
+
+
+    ICollection<TEntity> GetListFromRequestDto(RequestDto requestDto);
 }

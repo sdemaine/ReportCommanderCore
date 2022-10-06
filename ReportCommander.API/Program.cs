@@ -31,6 +31,7 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
+builder.Services.AddTransient<IConfigRepository, ConfigRepository>();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 //builder.Services.AddTransient<IRepository<Ingredient>, Repository<Ingredient>>();
 //builder.Services.AddTransient<IRepository<Recipe>, Repository<Recipe>>();

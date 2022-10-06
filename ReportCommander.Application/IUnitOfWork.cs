@@ -4,6 +4,8 @@ namespace ReportCommander.Application;
 
 public interface IUnitOfWork : IDisposable
 {
+    IConfigRepository ConfigRepository { get; }
+
     IRepository<TEntity> Repository<TEntity>() where TEntity : BaseEntity;
     int Complete();
 

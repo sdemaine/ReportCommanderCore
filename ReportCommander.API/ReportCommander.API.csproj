@@ -35,4 +35,16 @@
     <ProjectReference Include="..\ReportCommander.Application\ReportCommander.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Endpoints\DatabaseConnection\" />
+    <Folder Include="Endpoints\Delivery\" />
+    <Folder Include="Endpoints\Department\" />
+    <Folder Include="Endpoints\EmailRecipient\" />
+    <Folder Include="Endpoints\ExecutionHistory\" />
+    <Folder Include="Endpoints\OutputHistory\" />
+    <Folder Include="Endpoints\Queue\" />
+    <Folder Include="Endpoints\Schedule\" />
+    <Folder Include="Endpoints\UserProfile\" />
+  </ItemGroup>
+
 </Project>

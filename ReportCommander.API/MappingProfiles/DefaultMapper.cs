@@ -15,5 +15,7 @@ public class MappingProfiles : Profile
 
         CreateMap<Config, ConfigCreateRequest>().ReverseMap();
         CreateMap<Config, ConfigCreateResult>().ReverseMap();
+
+        CreateMap<Config, ConfigListResult>().ReverseMap();
     }
 }

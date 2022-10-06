@@ -75,6 +75,23 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
         return _context.Set<TEntity>().Find(id);
     }
 
+    public TEntity? FindById(int id, string[] includes)
+    {
+        IQueryable<TEntity> entityQuery = _context.Set<TEntity>();
+
+        foreach (var include in includes)
+        {
+            entityQuery = entityQuery.Include(include);
+        }
+
+        return entityQuery.FirstOrDefault(x => x.Id == id);
+    }
+
+    public ICollection<TEntity> GetListFromRequestDto(RequestDto requestDto)
+    {
+        throw new NotImplementedException();
+    }
+
     public void Remove(TEntity entity)
     {
         _context.Set<TEntity>().Remove(entity);

@@ -7,11 +7,15 @@ namespace ReportCommander.Application;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly IApplicationDbContext _context;
+    public readonly IConfigRepository configRepository;
     private Hashtable _repositories;
 
-    public UnitOfWork(IApplicationDbContext context)
+    public IConfigRepository ConfigRepository { get => configRepository; }
+
+    public UnitOfWork(IApplicationDbContext context, IConfigRepository configRepository)
     {
         _context = context;
+        this.configRepository = configRepository;
     }
 
     public int Complete()
