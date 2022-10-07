@@ -4,9 +4,13 @@ using ReportCommander.Application;
 using Microsoft.AspNetCore.Mvc;
 using ReportCommander.Core.Entities;
 using Swashbuckle.AspNetCore.Annotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ReportCommander.API.Endpoints;
 
+
+[Authorize]
+[ApiController]
 public class Create : EndpointBaseAsync
     .WithRequest<ConfigCreateRequest>
     .WithActionResult<ConfigCreateResult>
@@ -39,8 +43,13 @@ public class Create : EndpointBaseAsync
     //[Authorize]
     public override async Task<ActionResult<ConfigCreateResult>> HandleAsync(ConfigCreateRequest requestObject, CancellationToken cancellationToken = default)
     {
+        if (ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
         var configToCreate = mapper.Map<Config>(requestObject);
-        
+
         unitOfWork.Repository<Config>().Add(configToCreate);
         
         await unitOfWork.CompleteAsync(cancellationToken);

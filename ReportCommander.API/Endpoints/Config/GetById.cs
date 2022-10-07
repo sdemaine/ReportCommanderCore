@@ -8,6 +8,8 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace ReportCommander.API.Endpoints;
 
+[Authorize]
+[ApiController]
 public class GetById : EndpointBaseAsync
     .WithRequest<int>
     .WithActionResult<ConfigGetResult>
@@ -36,9 +38,11 @@ public class GetById : EndpointBaseAsync
         OperationId = "Configs.GetById",
         Tags = new[] { "Configs" })
     ]
-    [Authorize]
+    //[Authorize]
     public override async Task<ActionResult<ConfigGetResult>> HandleAsync(int id, CancellationToken cancellationToken = default)
     {
+        var user = User;
+
         var configById = unitOfWork.Repository<Config>().FindById(id, new[] { "DatabaseConnection" });
         return Ok(configById);
     }

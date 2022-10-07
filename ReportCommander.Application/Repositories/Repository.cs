@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using ReportCommander.Core;
+using ReportCommander.Core.Entities;
+using ReportCommander.Core.Interfaces;
 using ReportCommander.Infrastructure;
 using System.Linq.Expressions;
 
@@ -8,10 +11,25 @@ namespace ReportCommander.Application.Repositories;
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
 {
     protected readonly IApplicationDbContext _context;
+    protected readonly IUserProfile _userProfile;
 
     public Repository(IApplicationDbContext context)
     {
         _context = context;
+
+        var user = HttpHelper.HttpContext.User;
+
+        var claim = user.Claims.Where(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").FirstOrDefault();
+
+        if (claim == null) throw new Exception("User not registered in ReportCommander");
+
+
+
+        var userProfile = _context.UserProfiles.FirstOrDefault(x => x.SpragueLogin == claim.Value);
+        if (userProfile == null) throw new Exception("User not registered in ReportCommander");
+
+        _userProfile = userProfile;
+
     }
 
     //IUserProfile IRepository<TEntity>.UserProfile => new UserProfile()
@@ -70,11 +88,15 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
 
     public TEntity FindById(int id)
     {
+        var user = HttpHelper.HttpContext.User;
+
         return _context.Set<TEntity>().Find(id);
     }
 
     public TEntity? FindById(int id, string[] includes)
     {
+        var user = HttpHelper.HttpContext.User;
+
         IQueryable<TEntity> entityQuery = _context.Set<TEntity>();
 
         foreach (var include in includes)

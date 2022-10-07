@@ -4,6 +4,7 @@ namespace ReportCommander.API.Endpoints;
 
 public class ConfigCreateRequest
 {
+    [MaxLength(5)]
     public string Name { get; set; } = "";
 
     public string Description { get; set; } = "";
